@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nostra</title>
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ["Poppins", "ui-sans-serif", "system-ui"],
+                    },
+                },
+            },
+        };
+    </script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css" />
+    <style>
+        #mobileDrawer {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-neutral-50 text-neutral-900 font-display">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-white/70 backdrop-blur shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-3 gap-3">
+                <div class="flex items-center gap-3">
+                    <button id="btnMobileMenu" class="lg:hidden p-2 rounded-xl hover:bg-neutral-100">
+                        <i class="ti ti-menu-2 text-2xl"></i>
+                    </button>
+                    <a href="#home" class="text-2xl font-bold tracking-tight">
+                        <span class="px-2 py-1 rounded-2xl text-black text-4xl/tight font-extrabold"><span
+                                style="color: orange;">N</span>ostra</span>
+                    </a>
+                </div>
+
+                <!-- Search -->
+                <div class="hidden md:flex items-center flex-1 max-w-xl mx-4">
+                    <div class="relative w-full">
+                        <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2"></i>
+                        <input id="searchInput" type="text" placeholder="Search products…"
+                            class="w-full pl-10 pr-10 py-2 rounded-2xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900/20" />
+                        <button id="clearSearch"
+                            class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-neutral-100 hidden">
+                            <i class="ti ti-x"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+                    <button id="btnTheme" class="p-2 rounded-xl hover:bg-neutral-100" title="Toggle theme">
+                        <i class="ti ti-sun-high text-xl"></i>
+                    </button>
+                    <button id="btnOpenFilters"
+                        class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-2xl border border-neutral-200 hover:bg-neutral-50">
+                        <i class="ti ti-adjustments"></i>
+                        <span>Filters</span>
+                    </button>
+                    <button id="btnCart" class="relative p-2 rounded-xl hover:bg-neutral-100">
+                        <i class="ti ti-shopping-bag text-2xl"></i>
+                        <span id="cartCount"
+                            class="absolute -top-1 -right-1 text-xs px-1.5 py-0.5 rounded-lg bg-neutral-900 text-white">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile search -->
+            <div class="md:hidden pb-3">
+                <div class="relative">
+                    <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2"></i>
+                    <input id="searchInputMobile" type="text" placeholder="Search products…"
+                        class="w-full pl-10 pr-10 py-2 rounded-2xl border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-neutral-900/20" />
+                    <button id="clearSearchMobile"
+                        class="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-lg hover:bg-neutral-100 hidden">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Overlay -->
+    <div id="drawerBackdrop" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden z-[90]"></div>
+
+    <!-- Mobile drawer -->
+    <nav id="mobileDrawer"
+        class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl -translate-x-full transition-transform duration-300 z-[100]">
+        <div class="p-4 flex items-center justify-between border-b">
+            <span class="text-xl font-semibold">Menu</span>
+            <button class="p-2 rounded-xl hover:bg-neutral-100" data-close-drawer>
+                <i class="ti ti-x"></i>
+            </button>
+        </div>
+
+        <!-- FIXED: space-y-2 added -->
+        <div class="p-4 flex flex-col space-y-2">
+            <a href="#home" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>Home</a>
+            <a href="#new" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>New
+                Arrivals</a>
+            <a href="#men" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>Men</a>
+            <a href="#women" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>Women</a>
+            <a href="#kids" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>Kids</a>
+            <a href="#sale" class="block px-3 py-2 rounded-xl hover:bg-neutral-100" data-close-drawer>Sale</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="home" class="relative">
+        <div class="container mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-6 items-center py-10">
+                <div class="space-y-5">
+                    <span
+                        class="inline-flex items-center gap-2 text-sm px-3 py-1 rounded-full bg-neutral-900 text-white">
+                        <i class="ti ti-sparkles"></i> Fresh Styles 2025
+                    </span>
+                    <h1 class="text-4xl/tight md:text-5xl/tight font-extrabold tracking-tight">Shop Smart Live Better
+                    </h1>
+                    <p class="text-neutral-700 max-w-prose">At Nostra, shopping is more than just buying – it’s about
+                        finding what defines your style and needs.
+                        From premium fashion to daily must-haves, we make online shopping effortless and exciting.</p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#products"
+                            class="px-5 py-3 rounded-2xl bg-neutral-900 text-white hover:bg-neutral-800">Shop Now</a>
+                        <a href="#sale" class="px-5 py-3 rounded-2xl border border-neutral-300 hover:bg-neutral-50">View
+                            Deals</a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-xl">
+                        <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop"
+                            class="h-full w-full object-cover" alt="Hero" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products section -->
+    <section id="products" class="container mx-auto px-4 py-10 pb-24">
+        <h2 class="text-2xl font-bold mb-6">Products</h2>
+
+        <!-- Categories -->
+        <section class="container mx-auto px-4 py-4" aria-label="Categories">
+            <div class="flex flex-wrap items-center gap-2">
+                <button class="chip active" data-cat="all">All</button>
+                <button class="chip" data-cat="men">Men</button>
+                <button class="chip" data-cat="women">Women</button>
+                <button class="chip" data-cat="kids">Kids</button>
+                <button class="chip" data-cat="accessories">Accessories</button>
+                <button class="chip" data-cat="shoes">Shoes</button>
+            </div>
+        </section>
+
+        <div class="flex gap-6">
+            <!-- FILTER SECTION -->
+            <aside class="hidden lg:block lg:col-span-3 lg:block w-1/4">
+                <div class="rounded-3xl border border-neutral-200 bg-white p-4 sticky top-24 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">Filters</h3>
+                        <button id="btnClearFilters" class="text-sm underline">Clear</button>
+                    </div>
+
+                    <!-- Price -->
+                    <div>
+                        <h4 class="font-medium mb-2">Price</h4>
+                        <div class="flex items-center gap-3">
+                            <input id="priceMin" type="number" placeholder="Min"
+                                class="w-24 px-3 py-2 rounded-xl border" />
+                            <span>–</span>
+                            <input id="priceMax" type="number" placeholder="Max"
+                                class="w-24 px-3 py-2 rounded-xl border" />
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div>
+                        <h4 class="font-medium mb-2">Rating</h4>
+                        <div class="flex flex-col gap-2">
+                            <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="4"
+                                    class="scale-110"> 4★ & up</label>
+                            <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="3"
+                                    class="scale-110"> 3★ & up</label>
+                            <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="2"
+                                    class="scale-110"> 2★ & up</label>
+                            <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="0"
+                                    class="scale-110" checked> Any</label>
+                        </div>
+                        <div>
+                            <h4 class="font-medium mb-2">Sort</h4>
+                            <select id="sortSelect" class="w-full px-3 py-2 rounded-xl border">
+                                <option value="featured">Featured</option>
+                                <option value="price-asc">Price: Low to High</option>
+                                <option value="price-desc">Price: High to Low</option>
+                                <option value="rating-desc">Rating: High to Low</option>
+                                <option value="newest">Newest</option>
+                            </select>
+                        </div>
+            </aside>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-1">
+
+                <!-- Product 1 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?q=80&w=1000&auto=format&fit=crop"
+                        class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 1</h3>
+                    <p class="text-gray-600">₹499</p>
+                    <button onclick="addToCart('Product 1')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 2 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"
+                        class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 2</h3>
+                    <p class="text-gray-600">₹799</p>
+                    <button onclick="addToCart('Product 2')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 3 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop"
+                        class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 3</h3>
+                    <p class="text-gray-600">₹999</p>
+                    <button onclick="addToCart('Product 3')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 4 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./jeroen-den-otter-2b0JeJTEclQ-unsplash.jpg"
+                        class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 4</h3>
+                    <p class="text-gray-600">₹1299</p>
+                    <button onclick="addToCart('Product 4')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 5 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./c-d-x-PDX_a_82obo-unsplash.jpg" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 5</h3>
+                    <p class="text-gray-600">₹1499</p>
+                    <button onclick="addToCart('Product 5')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 6 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./junko-nakase-Q-72wa9-7Dg-unsplash.jpg" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 6</h3>
+                    <p class="text-gray-600">₹1699</p>
+                    <button onclick="addToCart('Product 6')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 7 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./rachit-tank-2cFZ_FB08UM-unsplash.jpg" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 7</h3>
+                    <p class="text-gray-600">₹1799</p>
+                    <button onclick="addToCart('Product 7')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 8 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./usama-akram-kP6knT7tjn4-unsplash.jpg" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 8</h3>
+                    <p class="text-gray-600">₹1999</p>
+                    <button onclick="addToCart('Product 8')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 9 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./cornelia-ng-zZLhoEwGCeM-unsplash.jpg" class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 9</h3>
+                    <p class="text-gray-600">₹2199</p>
+                    <button onclick="addToCart('Product 9')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+                <!-- Product 10 -->
+                <div
+                    class="bg-white p-4 rounded-xl shadow hover:scale-105 transition-transform duration-500 hover:shadow-lg/60 transition">
+                    <img src="./eniko-kis-KsLPTsYaqIQ-unsplash.jpg"
+                        class="w-full h-32 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Product 10</h3>
+                    <p class="text-gray-600">₹2499</p>
+                    <button onclick="addToCart('Product 10')"
+                        class="mt-3 w-full bg-neutral-900 text-white py-2 rounded-lg hover:bg-neutral-800">
+                        Add to Cart
+                    </button>
+                </div>
+
+            </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar"
+        class="fixed top-0 right-0 w-100 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="flex justify-between items-center p-4">
+            <h2 class="text-lg font-semibold">Your Cart</h2>
+            <button onclick="closeCart()" class="text-xl font-bold">&times;</button>
+        </div>
+        <div id="cartItems" class="p-4 flex-1 overflow-auto space-y-3"></div>
+        <div class="p-4 border-t space-y-3">
+            <div class="flex justify-between">
+                <span>Subtotal</span>
+                <span id="cartSubtotal">₹0</span>
+            </div>
+            <div class="flex justify-between">
+                <span>Shipping</span>
+                <span>Free</span>
+            </div>
+            <div class="flex justify-between font-bold mt-2">
+                <span>Total</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button
+                class="w-full px-4 py-3 rounded-2xl bg-neutral-900 text-white hover:bg-neutral-800">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Overlay Background -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden z-40"></div>
+
+
+    <!-- Customer Experience Section -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="text-center mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold">We Provide Best Customer Experience</h2>
+            <p class="text-gray-600 mt-2">We ensure that our Customer have the best shopping experience</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg/60 transition">
+                <i class="ti ti-mood-smile text-3xl mb-4"></i>
+                <h3 class="font-semibold text-lg">What Our Customers Say</h3>
+                <p class="text-gray-600 text-sm mt-2">Real experiences from our happy customers</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg/60 transition">
+                <i class="ti ti-feather text-3xl mb-4"></i>
+                <h3 class="font-semibold text-lg">New Arrival Everyday</h3>
+                <p class="text-gray-600 text-sm mt-2">Fresh styles added daily to keep your look unique</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg/60 transition">
+                <i class="ti ti-truck-delivery text-3xl mb-4"></i>
+                <h3 class="font-semibold text-lg">Fast & Free Shipping</h3>
+                <p class="text-gray-600 text-sm mt-2">Shop today, get it at your doorstep—quick & free.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Sidebar -->
+    <div id="filterSidebar"
+        class="fixed top-0 right-0 w-100 h-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto">
+        <div class="flex justify-between items-center p-4 border-b">
+            <h2 class="text-lg font-semibold">Filters</h2>
+            <button onclick="closeFilters()" class="text-xl font-bold">&times;</button>
+        </div>
+
+        <div class="p-4 space-y-6">
+            <!-- Price Filter -->
+            <div>
+                <h3 class="font-semibold mb-2">Price</h3>
+                <div class="flex items-center gap-2">
+                    <input type="number" placeholder="Min" class="w-20 border px-2 py-1 rounded">
+                    <span>-</span>
+                    <input type="number" placeholder="Max" class="w-20 border px-2 py-1 rounded">
+                </div>
+            </div>
+
+            <!-- Rating Filter -->
+            <div>
+                <h3 class="font-semibold mb-2">Rating</h3>
+                <div class="flex flex-col gap-2">
+                    <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="4"
+                            class="scale-110"> 4★ & up</label>
+                    <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="3"
+                            class="scale-110"> 3★ & up</label>
+                    <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="2"
+                            class="scale-110"> 2★ & up</label>
+                    <label class="inline-flex items-center gap-2"><input type="radio" name="rating" value="0"
+                            class="scale-110" checked> Any</label>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button class="flex-1 bg-black text-white px-4 py-2 rounded-lg">Apply</button>
+                <button class="flex-1 border px-4 py-2 rounded-lg">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Overlay -->
+    <div id="filterOverlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm hidden z-40"></div>
+
+
+    <!-- Footer -->
+    <footer class="border-t bg-orange-300">
+        <div class="container mx-auto px-4 py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div>
+                <h4 class="font-semibold mb-2">Nostra</h4>
+                <p class="text-sm text-neutral-600">Shop the latest trends and timeless classics, all in one place</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Shop</h4>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#men" class="hover:underline">Men</a></li>
+                    <li><a href="#women" class="hover:underline">Women</a></li>
+                    <li><a href="#kids" class="hover:underline">Kids</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Help</h4>
+                <ul class="space-y-1 text-sm">
+                    <li><a href="#" class="hover:underline">Shipping</a></li>
+                    <li><a href="#" class="hover:underline">Returns</a></li>
+                    <li><a href="#" class="hover:underline">Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-2">Newsletter</h4>
+                <div class="flex gap-2">
+                    <input type="email" placeholder="Email" class="flex-1 px-3 py-2 rounded-2xl border bg-white" />
+                    <button class="px-4 py-2 rounded-2xl bg-neutral-900 text-white">Join</button>
+                </div>
+            </div>
+        </div>
+        <div class="text-center text-xs text-neutral-500 pb-6">© <span id="year"></span> Nostra. All rights reserved.
+        </div>
+    </footer>
+
+
+    <script>
+        let cart = [];
+
+        // Cart open/close
+        const cartSidebar = document.getElementById("cartSidebar");
+        const btnCart = document.getElementById("btnCart");
+        const cartCount = document.getElementById("cartCount");
+        const cartItemsContainer = document.getElementById("cartItems");
+        const cartSubtotal = document.getElementById("cartSubtotal");
+        const cartTotal = document.getElementById("cartTotal");
+        const cartOverlay = document.getElementById("cartOverlay");
+
+        // Open Cart
+        btnCart.addEventListener("click", () => {
+            cartSidebar.classList.remove("translate-x-full");
+            cartOverlay.classList.remove("hidden");
+        });
+
+        // Close Cart
+        function closeCart() {
+            cartSidebar.classList.add("translate-x-full");
+            cartOverlay.classList.add("hidden");
+        }
+
+        // Close if overlay clicked
+        cartOverlay.addEventListener("click", closeCart);
+
+        // Add to cart
+        function addToCart(productName) {
+            let price = 0;
+            let img = ""
+
+            // price map
+            if (productName === "Product 1") { price = 499; img = "https://images.unsplash.com/photo-1518806118471-f28b20a1d79d?q=80&w=1000&auto=format&fit=crop"; }
+            else if (productName === "Product 2") { price = 799; img = "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"; }
+            else if (productName === "Product 3") { price = 999; img = "https://images.unsplash.com/photo-1523381294911-8d3cead13475?q=80&w=1000&auto=format&fit=crop"; }
+            else if (productName === "Product 4") { price = 1299; img = "./jeroen-den-otter-2b0JeJTEclQ-unsplash.jpg"; }
+            else if (productName === "Product 5") { price = 1499; img = "./c-d-x-PDX_a_82obo-unsplash.jpg"; }
+            else if (productName === "Product 6") { price = 1699; img = "./junko-nakase-Q-72wa9-7Dg-unsplash.jpg"; }
+            else if (productName === "Product 7") { price = 1799; img = "./rachit-tank-2cFZ_FB08UM-unsplash.jpg"; }
+            else if (productName === "Product 8") { price = 1999; img = "./usama-akram-kP6knT7tjn4-unsplash.jpg"; }
+            else if (productName === "Product 9") { price = 2199; img = "./cornelia-ng-zZLhoEwGCeM-unsplash.jpg"; }
+            else if (productName === "Product 10") { price = 2499; img = "./fernando-andrade-potCPE_Cw8A-unsplash.jpg"; }
+
+            // check product already in cart
+            let existing = cart.find(item => item.name === productName);
+
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ name: productName, price: price, qty: 1, img: img });
+            }
+
+            updateCart();
+            alert(productName + " added to cart!");
+        }
+
+        // Update cart
+        function updateCart() {
+            cartItemsContainer.innerHTML = "";
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                subtotal += item.price * item.qty;
+
+                cartItemsContainer.innerHTML += `
+        <div class="flex items-center justify-between mb-4 border-b pb-2">
+            <!-- Product Image -->
+            <img src="${item.img}" alt="${item.name}" class="w-16 h-16 rounded object-cover" />
+
+            <!-- Details -->
+            <div class="flex-1 px-3">
+                <h3 class="text-sm font-semibold">${item.name}</h3>
+                <p class="text-gray-500 text-sm">₹${item.price}</p>
+                <div class="flex items-center mt-2">
+                    <button onclick="decreaseQty(${index})" class="px-2 py-1  rounded">-</button>
+                    <span class="px-3">${item.qty}</span>
+                    <button onclick="increaseQty(${index})" class="px-2 py-1  rounded">+</button>
+                </div>
+            </div>
+
+            <!-- Delete -->
+            <button onclick="removeItem(${index})" class="text-gray-500 hover:text-red-500">
+                <i class='ti ti-trash'></i>
+            </button>
+        </div>
+        `;
+            });
+
+            cartSubtotal.innerText = "₹" + subtotal;
+            cartTotal.innerText = "₹" + subtotal;
+            cartCount.innerText = cart.length;
+        }
+
+
+        // Increase qty
+        function increaseQty(index) {
+            cart[index].qty++;
+            updateCart();
+        }
+
+        // Decrease qty
+        function decreaseQty(index) {
+            if (cart[index].qty > 1) {
+                cart[index].qty--;
+            } else {
+                cart.splice(index, 1);
+            }
+            updateCart();
+        }
+
+        // Remove item
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Filter Sidebar
+        const filterSidebar = document.getElementById("filterSidebar");
+        const btnOpenFilters = document.getElementById("btnOpenFilters");
+        const filterOverlay = document.getElementById("filterOverlay");
+
+        // Open Filter
+        btnOpenFilters.addEventListener("click", () => {
+            filterSidebar.classList.remove("translate-x-full");
+            filterOverlay.classList.remove("hidden");
+        });
+
+        // Close Filter
+        function closeFilters() {
+            filterSidebar.classList.add("translate-x-full");
+            filterOverlay.classList.add("hidden");
+        }
+
+        // Close if overlay clicked
+        filterOverlay.addEventListener("click", closeFilters);
+
+        // Mobile Drawer
+        const btnMobileMenu = document.getElementById("btnMobileMenu");
+        const mobileDrawer = document.getElementById("mobileDrawer");
+        const drawerBackdrop = document.getElementById("drawerBackdrop");
+
+        // Open Drawer
+        btnMobileMenu.addEventListener("click", () => {
+            mobileDrawer.classList.remove("-translate-x-full");
+            drawerBackdrop.classList.remove("hidden");
+        });
+
+        // Close Drawer (X button, backdrop, or link click)
+        document.querySelectorAll("[data-close-drawer]").forEach(el => {
+            el.addEventListener("click", closeDrawer);
+        });
+        drawerBackdrop.addEventListener("click", closeDrawer);
+
+        function closeDrawer() {
+            mobileDrawer.classList.add("-translate-x-full");
+            drawerBackdrop.classList.add("hidden");
+        }
+
+
+
+        // Footer year
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+
+
+
+
+</body>
+
+</html>
