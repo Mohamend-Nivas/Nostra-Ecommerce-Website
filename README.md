@@ -31,11 +31,11 @@ The website is carefully designed with **separate responsive code for both mobil
 ## Project Structure
 
 Nostra-Ecommerce-Website/
-- index.html # Main page
-- style.css # Tailwind CSS custom styles
-- script.js # JavaScript interactivity
-- /images # Product & banner images
-- README.md # Documentation
+-index.html # Main page
+-style.css # Tailwind CSS custom styles
+-script.js # JavaScript interactivity
+-/images # Product & banner images
+-README.md # Documentation
 
 # Future Scope
 
