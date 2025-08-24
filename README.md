@@ -30,19 +30,19 @@ The website is carefully designed with **separate responsive code for both mobil
 
 ## Project Structure
 
-Nostra-Ecommerce-Website/
--index.html # Main page
--style.css # Tailwind CSS custom styles
--script.js # JavaScript interactivity
--/images # Product & banner images
--README.md # Documentation
+-**Nostra**-Ecommerce-Website/
+-**index.html** # Main page
+-**style.css** # Tailwind CSS custom styles
+-**script.js** # JavaScript interactivity
+-**/images** # Product & banner images
+-**README.md** # Documentation
 
 # Future Scope
 
--Add shopping cart and checkout functionality
--User authentication (Login/Signup)
--Integration with payment gateway
--Backend support with databases (Node.js / Spring Boot)
+-**Add shopping cart and checkout functionality**
+-**User authentication (Login/Signup)**
+-**Integration with payment gateway**
+-**Backend support with databases (Node.js / Spring Boot)**
 
 # Author
 
